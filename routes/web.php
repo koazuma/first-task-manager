@@ -23,8 +23,13 @@ Route::get('/', function () {
     ]);
 });
 
+use Illuminate\Http\Request;
 Route::post('/task', function (Request $request) {
     $validator = Validator::make($request->all(), [
+/*
+Route::post('/task', function () {
+    $validator = Validator::make(Request::all(), [
+*/
         'name' => 'required|max:255',
     ]);
 
@@ -33,14 +38,15 @@ Route::post('/task', function (Request $request) {
             ->withInput()
             ->withErrors($validator);
     }
-    $task = new Task;
+    $task = new App\Task;
     $task->name = $request->name;
     $task->save();
 
     return redirect('/');
 });
 
-Route::delete('/task/{task}', function (Task $task) {
- //
+Route::delete('/task/{task}', function (App\Task $task) {
+    $task->delete();
+    return redirect('/');
 });
 
