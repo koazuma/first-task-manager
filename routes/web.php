@@ -15,7 +15,7 @@ Route::get('/welcome', function () {
     return view('welcome');
 });
 
-Route::get('/', function () {
+Route::get('/task', function () {
     $tasks = App\Task::orderBy('created_at','asc')->get();
 
     return view('tasks' ,[
@@ -42,11 +42,18 @@ Route::post('/task', function () {
     $task->name = $request->name;
     $task->save();
 
-    return redirect('/');
+    return redirect('/task');
 });
 
 Route::delete('/task/{task}', function (App\Task $task) {
     $task->delete();
-    return redirect('/');
+    return redirect('/task');
 });
+
+// 記事一覧
+Route::get('/article', 'ArticleController@index');
+// 記事作成
+Route::get('/article/create', 'ArticleController@create');
+// 記事登録
+Route::post('/article/create', 'ArticleController@store');
 
